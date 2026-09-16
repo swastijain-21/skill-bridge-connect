@@ -574,6 +574,61 @@ export type Database = {
           },
         ]
       }
+      resume_skills: {
+        Row: {
+          confidence: number
+          created_at: string
+          evidence: string | null
+          id: string
+          proficiency: number
+          resume_id: string
+          skill_id: string
+          student_id: string
+        }
+        Insert: {
+          confidence?: number
+          created_at?: string
+          evidence?: string | null
+          id?: string
+          proficiency?: number
+          resume_id: string
+          skill_id: string
+          student_id: string
+        }
+        Update: {
+          confidence?: number
+          created_at?: string
+          evidence?: string | null
+          id?: string
+          proficiency?: number
+          resume_id?: string
+          skill_id?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "resume_skills_resume_id_fkey"
+            columns: ["resume_id"]
+            isOneToOne: false
+            referencedRelation: "student_resumes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "resume_skills_skill_id_fkey"
+            columns: ["skill_id"]
+            isOneToOne: false
+            referencedRelation: "skills"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "resume_skills_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       skill_assessments: {
         Row: {
           description: string | null
@@ -632,6 +687,53 @@ export type Database = {
           name?: string
         }
         Relationships: []
+      }
+      student_resumes: {
+        Row: {
+          created_at: string
+          extracted_text: string | null
+          file_name: string
+          file_path: string
+          file_size: number
+          file_type: string
+          id: string
+          parse_status: string
+          student_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          extracted_text?: string | null
+          file_name: string
+          file_path: string
+          file_size?: number
+          file_type?: string
+          id?: string
+          parse_status?: string
+          student_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          extracted_text?: string | null
+          file_name?: string
+          file_path?: string
+          file_size?: number
+          file_type?: string
+          id?: string
+          parse_status?: string
+          student_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_resumes_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: true
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       student_skills: {
         Row: {
@@ -761,6 +863,11 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      can_view_student_resume: {
+        Args: { _student_id: string }
+        Returns: boolean
+      }
+      current_institution_id: { Args: never; Returns: string }
       current_profile_id: { Args: never; Returns: string }
       current_student_id: { Args: never; Returns: string }
       has_role: {
