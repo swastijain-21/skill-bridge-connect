@@ -766,7 +766,7 @@ export function IndustryOpportunities() {
         title="Opportunities"
         description="Post, manage and review opportunities for your company."
         action={
-          <Button onClick={resetForm} variant="default">
+          <Button onClick={() => { resetForm(); setEditingId(""); }} variant="default">
             <Plus className="mr-2 h-4 w-4" />
             New opportunity
           </Button>

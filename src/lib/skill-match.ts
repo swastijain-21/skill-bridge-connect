@@ -14,6 +14,7 @@ export type SkillBreakdown = {
   actual: number;
   status: SkillStatus;
   weight: number;
+  evidence: ("resume" | "assessment" | "profile")[];
 };
 
 export type MatchResult = {
@@ -38,6 +39,7 @@ export function statusFor(actual: number, required: number): SkillStatus {
 export function computeMatch(
   requirements: SkillRequirement[],
   studentSkills: Record<string, number>,
+  evidence: Record<string, ("resume" | "assessment" | "profile")[]> = {},
 ): MatchResult {
   if (requirements.length === 0) {
     return { score: 0, breakdown: [], missing: [], metCount: 0 };
@@ -65,6 +67,7 @@ export function computeMatch(
       actual,
       status,
       weight,
+      evidence: evidence[req.skillId] ?? (actual > 0 ? ["profile"] : []),
     });
   }
 

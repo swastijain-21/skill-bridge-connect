@@ -191,6 +191,7 @@ export function SignupForm() {
           full_name: fullName.trim(),
           role,
         },
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
       },
     });
     if (signUpError) {

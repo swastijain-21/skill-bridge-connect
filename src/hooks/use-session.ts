@@ -155,7 +155,8 @@ export function useProfile() {
         .eq("user_id", auth.user.id)
         .maybeSingle();
       if (error) throw error;
-      return (data as SessionProfile) ?? null;
+      if (data) return data as SessionProfile;
+      return provisionAuthenticatedUser(auth.user.email ? { email: auth.user.email } : {});
     },
     staleTime: 30_000,
   });

@@ -14,6 +14,108 @@ export type Database = {
   }
   public: {
     Tables: {
+      resume_skills: {
+        Row: {
+          confidence: number
+          created_at: string
+          evidence: string
+          id: string
+          resume_id: string
+          skill_id: string
+          student_id: string
+          proficiency: number
+        }
+        Insert: {
+          confidence?: number
+          created_at?: string
+          evidence: string
+          id?: string
+          resume_id: string
+          skill_id: string
+          student_id: string
+          proficiency?: number
+        }
+        Update: {
+          confidence?: number
+          created_at?: string
+          evidence?: string
+          id?: string
+          resume_id?: string
+          skill_id?: string
+          student_id?: string
+          proficiency?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "resume_skills_resume_id_fkey"
+            columns: ["resume_id"]
+            isOneToOne: false
+            referencedRelation: "student_resumes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "resume_skills_skill_id_fkey"
+            columns: ["skill_id"]
+            isOneToOne: false
+            referencedRelation: "skills"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      student_resumes: {
+        Row: {
+          created_at: string
+          extracted_text: string | null
+          file_name: string
+          file_path: string
+          file_size: number
+          file_type: string
+          id: string
+          student_id: string
+          parse_status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          extracted_text?: string | null
+          file_name: string
+          file_path: string
+          file_size: number
+          file_type: string
+          id?: string
+          student_id: string
+          parse_status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          extracted_text?: string | null
+          file_name?: string
+          file_path?: string
+          file_size?: number
+          file_type?: string
+          id?: string
+          student_id?: string
+          parse_status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "resume_skills_resume_id_fkey"
+            columns: ["id"]
+            isOneToOne: false
+            referencedRelation: "resume_skills"
+            referencedColumns: ["resume_id"]
+          },
+          {
+            foreignKeyName: "student_resumes_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: true
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       applications: {
         Row: {
           applied_at: string

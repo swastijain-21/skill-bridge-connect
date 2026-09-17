@@ -15,6 +15,7 @@ import { Route as InstitutionRouteImport } from './routes/institution'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as StudentRouteImport } from './routes/student'
+import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as IndustryIndexRouteImport } from './routes/industry.index'
 import { Route as IndustryApplicationsRouteImport } from './routes/industry.applications'
 import { Route as IndustryOpportunitiesRouteImport } from './routes/industry.opportunities'
@@ -33,6 +34,7 @@ import { Route as StudentLearningRouteImport } from './routes/student.learning'
 import { Route as StudentOpportunitiesRouteImport } from './routes/student.opportunities'
 import { Route as StudentProfileRouteImport } from './routes/student.profile'
 import { Route as StudentProjectsRouteImport } from './routes/student.projects'
+import { Route as StudentResumeRouteImport } from './routes/student.resume'
 import { Route as StudentSkillGapsRouteImport } from './routes/student.skill-gaps'
 import { Route as StudentSkillsRouteImport } from './routes/student.skills'
 
@@ -64,6 +66,11 @@ const SignupRoute = SignupRouteImport.update({
 const StudentRoute = StudentRouteImport.update({
   id: '/student',
   path: '/student',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/auth/callback',
+  path: '/auth/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndustryIndexRoute = IndustryIndexRouteImport.update({
@@ -157,6 +164,11 @@ const StudentProjectsRoute = StudentProjectsRouteImport.update({
   path: '/projects',
   getParentRoute: () => StudentRoute,
 } as any)
+const StudentResumeRoute = StudentResumeRouteImport.update({
+  id: '/resume',
+  path: '/resume',
+  getParentRoute: () => StudentRoute,
+} as any)
 const StudentSkillGapsRoute = StudentSkillGapsRouteImport.update({
   id: '/skill-gaps',
   path: '/skill-gaps',
@@ -175,6 +187,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/student': typeof StudentRouteWithChildren
+  '/auth/callback': typeof AuthCallbackRoute
   '/industry/applications': typeof IndustryApplicationsRoute
   '/industry/opportunities': typeof IndustryOpportunitiesRoute
   '/industry/profile': typeof IndustryProfileRoute
@@ -190,6 +203,7 @@ export interface FileRoutesByFullPath {
   '/student/opportunities': typeof StudentOpportunitiesRoute
   '/student/profile': typeof StudentProfileRoute
   '/student/projects': typeof StudentProjectsRoute
+  '/student/resume': typeof StudentResumeRoute
   '/student/skill-gaps': typeof StudentSkillGapsRoute
   '/student/skills': typeof StudentSkillsRoute
   '/industry/': typeof IndustryIndexRoute
@@ -200,6 +214,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/industry/applications': typeof IndustryApplicationsRoute
   '/industry/opportunities': typeof IndustryOpportunitiesRoute
   '/industry/profile': typeof IndustryProfileRoute
@@ -215,6 +230,7 @@ export interface FileRoutesByTo {
   '/student/opportunities': typeof StudentOpportunitiesRoute
   '/student/profile': typeof StudentProfileRoute
   '/student/projects': typeof StudentProjectsRoute
+  '/student/resume': typeof StudentResumeRoute
   '/student/skill-gaps': typeof StudentSkillGapsRoute
   '/student/skills': typeof StudentSkillsRoute
   '/industry': typeof IndustryIndexRoute
@@ -229,6 +245,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/student': typeof StudentRouteWithChildren
+  '/auth/callback': typeof AuthCallbackRoute
   '/industry/applications': typeof IndustryApplicationsRoute
   '/industry/opportunities': typeof IndustryOpportunitiesRoute
   '/industry/profile': typeof IndustryProfileRoute
@@ -244,6 +261,7 @@ export interface FileRoutesById {
   '/student/opportunities': typeof StudentOpportunitiesRoute
   '/student/profile': typeof StudentProfileRoute
   '/student/projects': typeof StudentProjectsRoute
+  '/student/resume': typeof StudentResumeRoute
   '/student/skill-gaps': typeof StudentSkillGapsRoute
   '/student/skills': typeof StudentSkillsRoute
   '/industry/': typeof IndustryIndexRoute
@@ -259,6 +277,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/student'
+    | '/auth/callback'
     | '/industry/applications'
     | '/industry/opportunities'
     | '/industry/profile'
@@ -274,6 +293,7 @@ export interface FileRouteTypes {
     | '/student/opportunities'
     | '/student/profile'
     | '/student/projects'
+    | '/student/resume'
     | '/student/skill-gaps'
     | '/student/skills'
     | '/industry/'
@@ -284,6 +304,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/signup'
+    | '/auth/callback'
     | '/industry/applications'
     | '/industry/opportunities'
     | '/industry/profile'
@@ -299,6 +320,7 @@ export interface FileRouteTypes {
     | '/student/opportunities'
     | '/student/profile'
     | '/student/projects'
+    | '/student/resume'
     | '/student/skill-gaps'
     | '/student/skills'
     | '/industry'
@@ -312,6 +334,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/student'
+    | '/auth/callback'
     | '/industry/applications'
     | '/industry/opportunities'
     | '/industry/profile'
@@ -327,6 +350,7 @@ export interface FileRouteTypes {
     | '/student/opportunities'
     | '/student/profile'
     | '/student/projects'
+    | '/student/resume'
     | '/student/skill-gaps'
     | '/student/skills'
     | '/industry/'
@@ -341,6 +365,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
   StudentRoute: typeof StudentRouteWithChildren
+  AuthCallbackRoute: typeof AuthCallbackRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -385,6 +410,13 @@ declare module '@tanstack/react-router' {
       path: '/student'
       fullPath: '/student'
       preLoaderRoute: typeof StudentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/industry/': {
@@ -513,6 +545,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudentProjectsRouteImport
       parentRoute: typeof StudentRoute
     }
+    '/student/resume': {
+      id: '/student/resume'
+      path: '/resume'
+      fullPath: '/student/resume'
+      preLoaderRoute: typeof StudentResumeRouteImport
+      parentRoute: typeof StudentRoute
+    }
     '/student/skill-gaps': {
       id: '/student/skill-gaps'
       path: '/skill-gaps'
@@ -578,6 +617,7 @@ interface StudentRouteChildren {
   StudentOpportunitiesRoute: typeof StudentOpportunitiesRoute
   StudentProfileRoute: typeof StudentProfileRoute
   StudentProjectsRoute: typeof StudentProjectsRoute
+  StudentResumeRoute: typeof StudentResumeRoute
   StudentSkillGapsRoute: typeof StudentSkillGapsRoute
   StudentSkillsRoute: typeof StudentSkillsRoute
   StudentIndexRoute: typeof StudentIndexRoute
@@ -591,6 +631,7 @@ const StudentRouteChildren: StudentRouteChildren = {
   StudentOpportunitiesRoute: StudentOpportunitiesRoute,
   StudentProfileRoute: StudentProfileRoute,
   StudentProjectsRoute: StudentProjectsRoute,
+  StudentResumeRoute: StudentResumeRoute,
   StudentSkillGapsRoute: StudentSkillGapsRoute,
   StudentSkillsRoute: StudentSkillsRoute,
   StudentIndexRoute: StudentIndexRoute,
@@ -606,6 +647,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
   StudentRoute: StudentRouteWithChildren,
+  AuthCallbackRoute: AuthCallbackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
